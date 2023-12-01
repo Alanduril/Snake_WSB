@@ -1,0 +1,1 @@
+Dalszy rozwój gry może być zrobiony przez dodanie dalszych punktow, kolizje miedzy graczami jak możliwość wbijania wiecej niż 1 punkt.
