@@ -12,7 +12,7 @@ namespace ConsoleSnake
             var snake1 = new List<Point> { new Point(10, 5) }; // Gracz 1 dalej od lewej ściany
             var snake2 = new List<Point> { new Point(30, 15) }; // Gracz 2 dalej od lewej ściany
 
-            Point food = new Point();
+            var food = GetFood(snake1.Concat(snake2).ToList(), 50, 20); // Zwiększono szerokość planszy
             var direction1 = Direction.Right;
             var direction2 = Direction.Left;
             var boardWidth = 50; // Zwiększono szerokość planszy
@@ -37,12 +37,14 @@ namespace ConsoleSnake
                 if (snake1[0].Equals(food))
                 {
                     snake1.Add(new Point(snake1[^1].X, snake1[^1].Y));
-                    score1++;
+                    food = GetFood(snake1.Concat(snake2).ToList(), boardWidth, boardHeight);
+                    score1++; 
                 }
                 else if (snake2[0].Equals(food))
                 {
                     snake2.Add(new Point(snake2[^1].X, snake2[^1].Y));
-                    score2++;
+                    food = GetFood(snake1.Concat(snake2).ToList(), boardWidth, boardHeight);
+                    score2++; 
                 }
 
                 if (CheckCollision(snake1, boardWidth, boardHeight) || CheckCollision(snake2, boardWidth, boardHeight))
@@ -61,7 +63,17 @@ namespace ConsoleSnake
             Console.Write("Game Over! Final Scores - Player1: {0}, Player2: {1}", score1, score2);
         }
 
-
+        static Point GetFood(List<Point> snake, int width, int height)
+        {
+            var random = new Random();
+            Point food;
+            do
+            {
+                food = new Point(random.Next(width), random.Next(height));
+            }
+            while (snake.Any(s => s.Equals(food)));
+            return food;
+        }
 
         static void MoveSnake(List<Point> snake, Direction direction)
         {
@@ -159,3 +171,5 @@ namespace ConsoleSnake
         Right
     }
 }
+
+
